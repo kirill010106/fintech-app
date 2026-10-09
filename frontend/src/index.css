@@ -1,0 +1,513 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+
+/* ==========================================================================
+   Theme contract
+   Every component must style itself through these variables only.
+   Dark is the default; [data-theme='light'] overrides.
+
+   One accent carries emphasis. Green/amber/red are reserved for state, not
+   decoration, so a warning still reads as a warning.
+   ========================================================================== */
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg-page: #0b1020;
+  --bg-surface: #131b2e;
+  --bg-surface-2: #1a2440;
+  --bg-subtle: rgba(255, 255, 255, 0.04);
+  --bg-hover: rgba(255, 255, 255, 0.07);
+  --bg-header: rgba(11, 16, 32, 0.9);
+
+  /* Lines */
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Text */
+  --text-primary: #eef2f9;
+  --text-secondary: #b9c4d6;
+  --text-muted: #7d8ba1;
+  --text-on-accent: #ffffff;
+
+  /* Accent */
+  --accent: #3b82f6;
+  --accent-strong: #2563eb;
+  --accent-soft: rgba(59, 130, 246, 0.14);
+  --accent-text: #93b4fc;
+
+  /* State */
+  --success: #10b981;
+  --success-soft: rgba(16, 185, 129, 0.13);
+  --success-text: #4ade9f;
+
+  --warning: #f59e0b;
+  --warning-soft: rgba(245, 158, 11, 0.13);
+  --warning-text: #fbbf24;
+
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.13);
+  --danger-text: #f87171;
+
+  --info: #38bdf8;
+  --info-soft: rgba(56, 189, 248, 0.13);
+  --info-text: #7dd3fc;
+
+  /* Data series only. Never used for text, borders or emphasis. */
+  --gold: #d9a441;
+  --gold-soft: rgba(217, 164, 65, 0.14);
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.22);
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.45);
+
+  /* Two radii only. Pills are for avatars and status tags, nothing else. */
+  --radius-sm: 8px;
+  --radius: 12px;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bg-page: #f2f5fa;
+  --bg-surface: #ffffff;
+  --bg-surface-2: #f7f9fc;
+  --bg-subtle: rgba(15, 23, 42, 0.035);
+  --bg-hover: rgba(15, 23, 42, 0.055);
+  --bg-header: rgba(255, 255, 255, 0.92);
+
+  --border: rgba(15, 23, 42, 0.11);
+  --border-strong: rgba(15, 23, 42, 0.2);
+
+  --text-primary: #101a2e;
+  --text-secondary: #43536d;
+  --text-muted: #71809a;
+  --text-on-accent: #ffffff;
+
+  --accent: #0a42d1;
+  --accent-strong: #0836a8;
+  --accent-soft: rgba(10, 66, 209, 0.09);
+  --accent-text: #0a42d1;
+
+  --success: #059669;
+  --success-soft: rgba(5, 150, 105, 0.1);
+  --success-text: #047857;
+
+  --warning: #d97706;
+  --warning-soft: rgba(217, 119, 6, 0.1);
+  --warning-text: #b45309;
+
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.09);
+  --danger-text: #b91c1c;
+
+  --info: #0284c7;
+  --info-soft: rgba(2, 132, 199, 0.09);
+  --info-text: #0369a1;
+
+  /* Data series only. Never used for text, borders or emphasis. */
+  --gold: #a97a12;
+  --gold-soft: rgba(169, 122, 18, 0.1);
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 18px rgba(15, 23, 42, 0.06);
+  --shadow-pop: 0 12px 32px rgba(15, 23, 42, 0.16);
+}
+
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+.page {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  max-width: 62ch;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.muted-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   Surfaces
+
+   A card is a container, not an ornament: no gradients, no lift on hover.
+   Emphasis comes from a thin left edge, not from a coloured wash.
+   ========================================================================== */
+
+.app-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.app-card-flat {
+  box-shadow: none;
+}
+
+.app-card-hover:hover {
+  border-color: var(--border-strong);
+}
+
+.app-card-marked {
+  border-left: 3px solid var(--accent);
+}
+
+.app-card-marked-warning {
+  border-left-color: var(--warning);
+}
+
+.app-card-marked-danger {
+  border-left-color: var(--danger);
+}
+
+.app-panel {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.app-panel-hover:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+.divider-top {
+  border-top: 1px solid var(--border);
+}
+
+/* A row of related figures, divided rather than boxed. */
+.stat-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+.stat-strip > * {
+  flex: 1 1 150px;
+  min-width: 0;
+  padding: 14px 16px;
+  border-right: 1px solid var(--border);
+}
+
+.stat-strip > *:last-child {
+  border-right: none;
+}
+
+.stat-value {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   Text helpers
+   ========================================================================== */
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   Status
+   ========================================================================== */
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 19px;
+  white-space: nowrap;
+}
+
+.status-tag-neutral {
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.status-tag-accent {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.status-tag-success {
+  background: var(--success-soft);
+  color: var(--success-text);
+}
+
+.status-tag-warning {
+  background: var(--warning-soft);
+  color: var(--warning-text);
+}
+
+.status-tag-danger {
+  background: var(--danger-soft);
+  color: var(--danger-text);
+}
+
+/* ==========================================================================
+   Empty, loading and error states
+
+   Every data-bearing section uses these instead of inventing its own
+   placeholder, so a slow or failed load reads the same everywhere.
+   ========================================================================== */
+
+.state-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 34px 20px;
+  text-align: center;
+}
+
+.state-icon {
+  font-size: 22px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.state-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.state-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 46ch;
+}
+
+/* ==========================================================================
+   Auth screen
+
+   A single column, a lot of air. No marketing panel: a person arrives here to
+   sign in, not to be sold the product they already chose.
+   ========================================================================== */
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 392px;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-on-accent);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  flex: 0 0 auto;
+}
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.nav-item-active {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.nav-item-active:hover {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.nav-icon {
+  font-size: 17px;
+  display: flex;
+  flex: 0 0 auto;
+}
+
+/* ==========================================================================
+   Focus and motion
+
+   Keyboard users get a visible ring everywhere. Anyone who asked the system
+   for less motion gets none of ours.
+   ========================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Scrollbars
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
